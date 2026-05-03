@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String        @id @default(cuid())
+  name            String
+  email           String        @unique
+  phone           String?
+  password        String?
+  referralCode    String        @unique
+  referredById    String?
+  referredBy      User?         @relation("ReferralLink", fields: [referredById], references: [id])
+  referrals       User[]        @relation("ReferralLink")
+  walletBalance   Float         @default(0)
+  totalWithdrawn  Float         @default(0)
+  role            String        @default("user")
+  isActive        Boolean       @default(false)
+  hasPaidFee      Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  paymentSlips    PaymentSlip[]
+  transactions    Transaction[]
+  withdrawals     Withdrawal[]
+}
+
+model PaymentSlip {
+  id          String     @id @default(cuid())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount      Float      @default(100)
+  method      String
+  reference   String
+  status      String     @default("pending")
+  adminNote   String?
+  createdAt   DateTime   @default(now())
+  reviewedAt  DateTime?
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount      Float
+  type        String
+  description String
+  createdAt   DateTime @default(now())
+}
+
+model Withdrawal {
+  id          String     @id @default(cuid())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount      Float
+  method      String
+  account     String
+  status      String     @default("pending")
+  adminNote   String?
+  createdAt   DateTime   @default(now())
+  reviewedAt  DateTime?
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  name      String
+  rating    Int
+  comment   String
+  avatar    String   @default("")
+  createdAt DateTime @default(now())
+}
