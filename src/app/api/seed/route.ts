@@ -121,3 +121,15 @@ export async function GET() {
     return NextResponse.json({ error: 'Seed failed' }, { status: 500 })
   }
 }
+    // Create default settings
+    await prisma.settings.upsert({
+      where: { id: '1' },
+      update: {},
+      create: {
+        id: '1',
+        referralBonus: 100,
+        minWithdrawal: 500,
+        jazzCashNumber: '03257726221',
+        siteName: 'EarnPro',
+      },
+    });
