@@ -1,67 +1,43 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/db';
 
-export async function GET(request: NextRequest) {
+export async function GET(request: Request) {
   try {
-    const userId = request.headers.get('x-user-id')
-    if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '20');
+    const search = searchParams.get('search') || '';
 
-    const admin = await db.user.findUnique({ where: { id: userId } })
-    if (!admin || admin.role !== 'admin') {
-      return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
-    }
+    const where = search ? {
+      OR: [
+        { name: { contains: search, mode: 'insensitive' as const } },
+        { email: { contains: search, mode: 'insensitive' as const } },
+      ],
+    } : {};
 
-    const users = await db.user.findMany({
-      orderBy: { createdAt: 'desc' },
-      include: {
-        _count: { select: { referrals: true } },
-        paymentSlips: {
-          select: { status: true, createdAt: true },
-          orderBy: { createdAt: 'desc' },
-          take: 1
-        }
-      }
-    })
+    const [users, total] = await Promise.all([
+      prisma.user.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+        select: { id: true, name: true, email: true, balance: true, role: true, referredBy: true, createdAt: true },
+      }),
+      prisma.user.count({ where }),
+    ]);
 
-    return NextResponse.json({ users })
+    return NextResponse.json({ users, total, page, totalPages: Math.ceil(total / limit) });
   } catch (error) {
-    console.error('Admin users error:', error)
-    return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
   }
 }
 
-export async function PUT(request: NextRequest) {
+export async function DELETE(request: Request) {
   try {
-    const body = await request.json()
-    const { adminId, targetUserId } = body
-
-    if (!adminId || !targetUserId) {
-      return NextResponse.json({ error: 'Sab fields zaroori hain' }, { status: 400 })
-    }
-
-    const admin = await db.user.findUnique({ where: { id: adminId } })
-    if (!admin || admin.role !== 'admin') {
-      return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
-    }
-
-    const targetUser = await db.user.findUnique({ where: { id: targetUserId } })
-    if (!targetUser) {
-      return NextResponse.json({ error: 'User nahi mila' }, { status: 404 })
-    }
-
-    const updatedUser = await db.user.update({
-      where: { id: targetUserId },
-      data: { isActive: !targetUser.isActive }
-    })
-
-    return NextResponse.json({
-      message: `User ${updatedUser.isActive ? 'activated' : 'deactivated'}`,
-      isActive: updatedUser.isActive
-    })
+    const { userId } = await request.json();
+    await prisma.user.delete({ where: { id: userId } });
+    return NextResponse.json({ message: 'User deleted' });
   } catch (error) {
-    console.error('Admin toggle user error:', error)
-    return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to delete user' }, { status: 500 });
   }
 }
