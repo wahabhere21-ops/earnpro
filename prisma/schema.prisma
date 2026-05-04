@@ -73,3 +73,12 @@ model Review {
   avatar    String   @default("")
   createdAt DateTime @default(now())
 }
+
+model Settings {
+  id              String   @id @default("1")
+  referralBonus   Int      @default(100)
+  minWithdrawal   Int      @default(500)
+  jazzCashNumber  String   @default("03257726221")
+  siteName        String   @default("EarnPro")
+  updatedAt       DateTime @updatedAt
+}
