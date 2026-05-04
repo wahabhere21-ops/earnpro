@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "npx prisma generate && next dev -p 3000",
-    "build": "npx prisma generate && next build",
+    "build": "npx prisma generate --no-engine && next build",
     "start": "next start",
-    "postinstall": "npx prisma generate",
+    "postinstall": "npx prisma generate --no-engine",
     "lint": "eslint .",
     "db:push": "prisma db push",
     "db:generate": "prisma generate"
