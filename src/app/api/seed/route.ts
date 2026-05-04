@@ -112,17 +112,8 @@ export async function GET() {
       }
     }
 
-    return NextResponse.json({
-      message: 'Seed complete! Admin created and reviews seeded.',
-      reviewCount: await db.review.count(),
-    })
-  } catch (error) {
-    console.error('Seed error:', error)
-    return NextResponse.json({ error: 'Seed failed' }, { status: 500 })
-  }
-}
     // Create default settings
-    await prisma.settings.upsert({
+    await db.settings.upsert({
       where: { id: '1' },
       update: {},
       create: {
@@ -132,4 +123,14 @@ export async function GET() {
         jazzCashNumber: '03257726221',
         siteName: 'EarnPro',
       },
-    });
+    })
+
+    return NextResponse.json({
+      message: 'Seed complete! Admin created, reviews seeded, settings created.',
+      reviewCount: await db.review.count(),
+    })
+  } catch (error) {
+    console.error('Seed error:', error)
+    return NextResponse.json({ error: 'Seed failed' }, { status: 500 })
+  }
+}
