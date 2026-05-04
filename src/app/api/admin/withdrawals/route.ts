@@ -1,79 +1,52 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
+import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/db';
 
-export async function PUT(request: NextRequest) {
+export async function GET(request: Request) {
   try {
-    const body = await request.json()
-    const { adminId, withdrawalId, action, adminNote } = body
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status') || '';
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '20');
 
-    if (!adminId || !withdrawalId || !action) {
-      return NextResponse.json({ error: 'Sab fields zaroori hain' }, { status: 400 })
-    }
+    const where = status ? { status: status as any } : {};
 
-    const admin = await db.user.findUnique({ where: { id: adminId } })
-    if (!admin || admin.role !== 'admin') {
-      return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
-    }
+    const [withdrawals, total] = await Promise.all([
+      prisma.withdrawal.findMany({
+        where,
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+        include: { user: { select: { name: true, email: true } } },
+      }),
+      prisma.withdrawal.count({ where }),
+    ]);
 
-    const withdrawal = await db.withdrawal.findUnique({
-      where: { id: withdrawalId }
-    })
-
-    if (!withdrawal) {
-      return NextResponse.json({ error: 'Withdrawal nahi mili' }, { status: 404 })
-    }
-
-    if (withdrawal.status !== 'pending') {
-      return NextResponse.json({ error: 'Yeh withdrawal pehle se process ho chuki hai' }, { status: 400 })
-    }
-
-    if (action === 'approve') {
-      await db.withdrawal.update({
-        where: { id: withdrawalId },
-        data: {
-          status: 'approved',
-          adminNote: adminNote || 'Approved',
-          reviewedAt: new Date()
-        }
-      })
-
-      await db.user.update({
-        where: { id: withdrawal.userId },
-        data: { totalWithdrawn: { increment: withdrawal.amount } }
-      })
-
-      return NextResponse.json({ message: 'Withdrawal approved!' })
-    } else if (action === 'reject') {
-      await db.withdrawal.update({
-        where: { id: withdrawalId },
-        data: {
-          status: 'rejected',
-          adminNote: adminNote || 'Rejected',
-          reviewedAt: new Date()
-        }
-      })
-
-      // Refund wallet balance
-      await db.user.update({
-        where: { id: withdrawal.userId },
-        data: { walletBalance: { increment: withdrawal.amount } }
-      })
-
-      await db.transaction.create({
-        data: {
-          userId: withdrawal.userId,
-          amount: withdrawal.amount,
-          type: 'refund',
-          description: 'Withdrawal rejected - Amount refunded to wallet',
-        }
-      })
-
-      return NextResponse.json({ message: 'Withdrawal rejected. Balance refunded.' })
-    } else {
-      return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
-    }
+    return NextResponse.json({ withdrawals, total, page, totalPages: Math.ceil(total / limit) });
   } catch (error) {
-    console.error('Withdrawal admin error:', error)
-    return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to fetch withdrawals' }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: Request) {
+  try {
+    const { id, status } = await request.json();
+
+    if (status === 'APPROVED') {
+      const withdrawal = await prisma.withdrawal.findUnique({ where: { id } });
+      if (!withdrawal) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+      await prisma.user.update({
+        where: { id: withdrawal.userId },
+        data: { balance: { decrement: withdrawal.amount } },
+      });
+    }
+
+    await prisma.withdrawal.update({
+      where: { id },
+      data: { status, processedAt: new Date() },
+    });
+
+    return NextResponse.json({ message: `Withdrawal ${status.toLowerCase()}` });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to update withdrawal' }, { status: 500 });
   }
 }
