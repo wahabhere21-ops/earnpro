@@ -36,13 +36,13 @@ export default function LoginModal() {
 
   const handleSubmit = async () => {
     if (!email.trim()) {
-      toast({ title: 'Error', description: 'Email zaroori hai', variant: 'destructive' })
+      toast({ title: 'Error', description: 'Email is required', variant: 'destructive' })
       return
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
-      toast({ title: 'Error', description: 'Ghalat email format', variant: 'destructive' })
+      toast({ title: 'Error', description: 'Invalid email format', variant: 'destructive' })
       return
     }
 
@@ -77,15 +77,15 @@ export default function LoginModal() {
         if (registerData.user.isActive) {
           setStoreView('dashboard')
           if (referralCode.trim()) {
-            toast({ title: 'Welcome!', description: 'Account ready! Referral code apply ho gaya.' })
+            toast({ title: 'Welcome!', description: 'Account ready! Referral code applied.' })
           } else {
-            toast({ title: 'Welcome!', description: 'Account ready - dashboard dekhein!' })
+            toast({ title: 'Welcome!', description: 'Account ready - check your dashboard!' })
           }
         } else {
           if (referralCode.trim()) {
-            toast({ title: 'Account Created!', description: 'Referral code apply ho gaya! Ab payment karein.' })
+            toast({ title: 'Account Created!', description: 'Referral code applied! Now make the payment.' })
           } else {
-            toast({ title: 'Account Created!', description: 'Ab payment karein account activate karne ke liye' })
+            toast({ title: 'Account Created!', description: 'Make the payment to activate your account' })
           }
           setStoreView('payment')
         }
@@ -123,7 +123,7 @@ export default function LoginModal() {
           setStep('input')
           toast({
             title: 'Payment Pending',
-            description: 'Admin ne abhi aapki payment verify nahi ki',
+            description: 'Admin hasn\'t verified your payment yet',
             variant: 'destructive'
           })
           return
@@ -141,7 +141,7 @@ export default function LoginModal() {
     } catch {
       setLoading(false)
       setStep('input')
-      toast({ title: 'Error', description: 'Network error. Dobara try karein.', variant: 'destructive' })
+      toast({ title: 'Error', description: 'Network error. Please try again.', variant: 'destructive' })
     }
   }
 
@@ -262,7 +262,7 @@ export default function LoginModal() {
                     />
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Kisi dost ne diya hai? Code yahan daalein - Rs. 50 bonus referrer ko milega!
+                    Got a code from a friend? Enter it here - Rs. 50 bonus for the referrer!
                   </p>
                 </div>
 
