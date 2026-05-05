@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
     if (!email) {
       return NextResponse.json(
-        { error: 'Email zaroori hai' },
+        { error: 'Email is required' },
         { status: 400 }
       )
     }
@@ -25,14 +25,14 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: 'Yeh email registered nahi hai. Pehle Join karein.' },
+        { error: 'This email is not registered. Please sign up first.' },
         { status: 404 }
       )
     }
 
     if (!user.isActive) {
       return NextResponse.json(
-        { error: 'Admin ne abhi aapki payment verify nahi ki', user: { id: user.id, isActive: false } },
+        { error: 'Admin hasn't verified your payment yet', user: { id: user.id, isActive: false } },
         { status: 403 }
       )
     }
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Login error:', error)
     return NextResponse.json(
-      { error: 'Kuch gadbad ho gayi. Dobara try karein.' },
+      { error: 'Something went wrong. Please try again.' },
       { status: 500 }
     )
   }
