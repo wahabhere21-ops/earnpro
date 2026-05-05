@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
     const { adminId, name, rating, comment } = body
 
     if (!adminId || !name || !rating || !comment) {
-      return NextResponse.json({ error: 'Sab fields zaroori hain' }, { status: 400 })
+      return NextResponse.json({ error: 'All fields are required' }, { status: 400 })
     }
 
     const admin = await db.user.findUnique({ where: { id: adminId } })
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
       data: { name, rating: Number(rating), comment }
     })
 
-    return NextResponse.json({ message: 'Review add ho gayi!', review })
+    return NextResponse.json({ message: 'Review added!', review })
   } catch (error) {
     console.error('Admin reviews POST error:', error)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
@@ -65,7 +65,7 @@ export async function DELETE(request: NextRequest) {
     const { adminId, reviewId } = body
 
     if (!adminId || !reviewId) {
-      return NextResponse.json({ error: 'Sab fields zaroori hain' }, { status: 400 })
+      return NextResponse.json({ error: 'All fields are required' }, { status: 400 })
     }
 
     const admin = await db.user.findUnique({ where: { id: adminId } })
@@ -75,7 +75,7 @@ export async function DELETE(request: NextRequest) {
 
     await db.review.delete({ where: { id: reviewId } })
 
-    return NextResponse.json({ message: 'Review delete ho gayi!' })
+    return NextResponse.json({ message: 'Review deleted!' })
   } catch (error) {
     console.error('Admin reviews DELETE error:', error)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
