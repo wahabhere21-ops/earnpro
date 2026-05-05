@@ -232,7 +232,7 @@ export default function AdminPanel() {
   const handleAddReview = async () => {
     if (!user?.id) return
     if (!newReview.name || !newReview.comment) {
-      toast({ title: 'Error', description: 'Name aur comment zaroori hain', variant: 'destructive' })
+      toast({ title: 'Error', description: 'Name and comment are required', variant: 'destructive' })
       return
     }
     try {
