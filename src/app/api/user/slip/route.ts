@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
 
     if (!userId || !method || !reference) {
       return NextResponse.json(
-        { error: 'Sab fields zaroori hain' },
+        { error: 'All fields are required' },
         { status: 400 }
       )
     }
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     const validMethods = ['jazzcash', 'easypaisa', 'bank']
     if (!validMethods.includes(method)) {
       return NextResponse.json(
-        { error: 'Ghalat payment method' },
+        { error: 'Invalid payment method' },
         { status: 400 }
       )
     }
@@ -24,14 +24,14 @@ export async function POST(request: NextRequest) {
     const user = await db.user.findUnique({ where: { id: userId } })
     if (!user) {
       return NextResponse.json(
-        { error: 'User nahi mila' },
+        { error: 'User not found' },
         { status: 404 }
       )
     }
 
     if (user.hasPaidFee) {
       return NextResponse.json(
-        { error: 'Aapki fee pehle se pay ho chuki hai' },
+        { error: 'Your fee has already been paid' },
         { status: 400 }
       )
     }
@@ -47,13 +47,13 @@ export async function POST(request: NextRequest) {
     })
 
     return NextResponse.json({
-      message: 'Payment slip successfully submit ho gayi! Admin verify karega.',
+      message: 'Payment slip submitted successfully! Admin will verify.',
       slipId: slip.id
     })
   } catch (error) {
     console.error('Slip error:', error)
     return NextResponse.json(
-      { error: 'Kuch gadbad ho gayi. Dobara try karein.' },
+      { error: 'Something went wrong. Please try again.' },
       { status: 500 }
     )
   }
