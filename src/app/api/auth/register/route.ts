@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
     if (!name || !email) {
       return NextResponse.json(
-        { error: 'Name aur email zaroori hain' },
+        { error: 'Name and email are required' },
         { status: 400 }
       )
     }
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { error: 'Ghalat email format' },
+        { error: 'Invalid email format' },
         { status: 400 }
       )
     }
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     const existingUser = await db.user.findUnique({ where: { email } })
     if (existingUser) {
       return NextResponse.json(
-        { error: 'Yeh email pehle se registered hai. Login karein.', user: existingUser },
+        { error: 'This email is already registered. Please login.', user: existingUser },
         { status: 409 }
       )
     }
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({
-      message: 'Account successfully create ho gaya!',
+      message: 'Account successfully created!',
       user: {
         id: user.id,
         name: user.name,
@@ -127,7 +127,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Register error:', error)
     return NextResponse.json(
-      { error: 'Kuch gadbad ho gayi. Dobara try karein.' },
+      { error: 'Something went wrong. Please try again.' },
       { status: 500 }
     )
   }
