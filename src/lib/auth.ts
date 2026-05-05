@@ -1,3 +1,4 @@
+// EarnPro v2.0 - All English
 import crypto from 'crypto'
 
 const SALT = 'earnpro-app-salt-2024-secure'
