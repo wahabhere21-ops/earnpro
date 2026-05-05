@@ -1,22 +1,17 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "EarnPro - Referral Earning Platform | Rs. 100 Fee, Rs. 50 Per Referral",
-  description: "Join with just Rs. 100 fee and earn Rs. 50 per referral! Invite friends and earn unlimited. Pakistan's #1 referral earning platform.",
-  keywords: ["EarnPro", "referral earning", "online earning Pakistan", "earn money online", "referral bonus"],
+  title: "EarnPro - Simple Referral Earnings",
+  description: "A simple, transparent referral system. Share your link, invite friends, and earn rewards for each successful referral.",
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
@@ -30,7 +25,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} antialiased bg-background text-foreground`}
+        style={{ fontFamily: 'var(--font-inter), ui-sans-serif, system-ui, sans-serif' }}
       >
         {children}
         <Toaster />
