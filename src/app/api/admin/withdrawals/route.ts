@@ -36,7 +36,7 @@ export async function PATCH(request: Request) {
       if (!withdrawal) return NextResponse.json({ error: 'Not found' }, { status: 404 });
       await prisma.user.update({
         where: { id: withdrawal.userId },
-        data: { balance: { decrement: withdrawal.amount } },
+        data: { walletBalance: { decrement: withdrawal.amount } },
       });
     }
 
