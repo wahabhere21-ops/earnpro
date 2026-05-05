@@ -150,14 +150,14 @@ export default function UserDashboard() {
 
   const handleWithdraw = async () => {
     if (!withdrawAmount || !withdrawMethod || !withdrawAccount) {
-      toast({ title: 'Error', description: 'Sab fields zaroori hain', variant: 'destructive' })
+      toast({ title: 'Error', description: 'All fields are required', variant: 'destructive' })
       return
     }
     if (!user?.id) return
 
     const amount = parseFloat(withdrawAmount)
     if (isNaN(amount) || amount <= 0) {
-      toast({ title: 'Error', description: 'Valid amount enter karein', variant: 'destructive' })
+      toast({ title: 'Error', description: 'Enter a valid amount', variant: 'destructive' })
       return
     }
 
@@ -327,7 +327,7 @@ export default function UserDashboard() {
                     </div>
                     <div className="flex-1">
                       <h3 className="text-lg font-bold text-foreground">Add Users</h3>
-                      <p className="text-sm text-muted-foreground">Referral code share karo aur kamao</p>
+                      <p className="text-sm text-muted-foreground">Share your referral code and earn</p>
                     </div>
                     <div className="flex items-center gap-1">
                       <span className="text-2xl font-bold text-emerald-600">{referralCount}</span>
@@ -359,7 +359,7 @@ export default function UserDashboard() {
                     <div className="flex-1">
                       <h3 className="text-lg font-bold text-foreground">Withdraw</h3>
                       <p className="text-sm text-muted-foreground">
-                        {canWithdraw ? 'Paisa withdraw karein' : '5 referrals chahiye'}
+                        {canWithdraw ? 'Withdraw your earnings' : '5 referrals needed'}
                       </p>
                     </div>
                     {!canWithdraw && (
@@ -387,7 +387,7 @@ export default function UserDashboard() {
                     </div>
                     <div className="flex-1">
                       <h3 className="text-lg font-bold text-foreground">Reviews</h3>
-                      <p className="text-sm text-muted-foreground">User reviews dekhein</p>
+                      <p className="text-sm text-muted-foreground">See user reviews</p>
                     </div>
                     <ChevronRight className="w-5 h-5 text-purple-400" />
                   </CardContent>
@@ -411,7 +411,7 @@ export default function UserDashboard() {
 
               <Card className="border-emerald-200">
                 <CardContent className="p-6 text-center space-y-4">
-                  <h3 className="text-lg font-bold">Apna Referral Code</h3>
+                  <h3 className="text-lg font-bold">Your Referral Code</h3>
                   <div className="flex items-center gap-2 justify-center">
                     <div className="bg-emerald-50 border-2 border-dashed border-emerald-300 rounded-lg px-6 py-3">
                       <span className="text-2xl font-bold text-emerald-700 tracking-widest">
@@ -428,7 +428,7 @@ export default function UserDashboard() {
                     </Button>
                   </div>
                   <div className="text-sm text-muted-foreground">
-                    Har referral par Rs. 50! Dosto ko share karo.
+                    Rs. 50 per referral! Share with friends.
                   </div>
                   <Button
                     onClick={() => {
@@ -436,7 +436,7 @@ export default function UserDashboard() {
                         navigator.share({ title: 'Join EarnPro', text: shareText })
                       } else {
                         navigator.clipboard.writeText(shareText)
-                        toast({ title: 'Copied!', description: 'Share text clipboard mein copy ho gayi' })
+                        toast({ title: 'Copied!', description: 'Share text copied to clipboard' })
                       }
                     }}
                     className="bg-emerald-500 hover:bg-emerald-600 text-white"
@@ -475,8 +475,8 @@ export default function UserDashboard() {
                   ) : (
                     <div className="text-center py-8 text-muted-foreground">
                       <Users className="w-10 h-10 mx-auto mb-2 opacity-30" />
-                      <p className="text-sm">Abhi tak koi referral nahi</p>
-                      <p className="text-xs">Apna code share karo!</p>
+                      <p className="text-sm">No referrals yet</p>
+                      <p className="text-xs">Share your code!</p>
                     </div>
                   )}
                 </CardContent>
@@ -504,7 +504,7 @@ export default function UserDashboard() {
                     <div>
                       <p className="font-medium text-amber-800 text-sm">Minimum 5 Referrals Required</p>
                       <p className="text-xs text-amber-600 mt-0.5">
-                        Aapko abhi {5 - referralCount} aur referrals chahiye withdrawal ke liye
+                        You need {5 - referralCount} more referrals to withdraw
                       </p>
                     </div>
                   </CardContent>
