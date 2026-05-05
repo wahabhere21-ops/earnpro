@@ -42,15 +42,15 @@ export default function PaymentScreen() {
 
   const handleSubmit = async () => {
     if (!method) {
-      toast({ title: 'Error', description: 'Payment method select karein', variant: 'destructive' })
+      toast({ title: 'Error', description: 'Select a payment method', variant: 'destructive' })
       return
     }
     if (!reference.trim()) {
-      toast({ title: 'Error', description: 'Reference/Transaction ID zaroori hai', variant: 'destructive' })
+      toast({ title: 'Error', description: 'Reference/Transaction ID is required', variant: 'destructive' })
       return
     }
     if (!user?.id) {
-      toast({ title: 'Error', description: 'User data nahi mili', variant: 'destructive' })
+      toast({ title: 'Error', description: 'User data not found', variant: 'destructive' })
       return
     }
 
@@ -129,7 +129,7 @@ export default function PaymentScreen() {
                       Pay Rs. 100
                     </h2>
                     <p className="text-muted-foreground">
-                      Account activate karne ke liye Rs. 100 pay karein
+                      Pay Rs. 100 to activate your account
                     </p>
                     <div className="text-4xl font-extrabold text-amber-600 mt-3">
                       Rs. 100
@@ -192,7 +192,7 @@ export default function PaymentScreen() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div>
-                      <Label>Method Select Karein</Label>
+                      <Label>Select Payment Method</Label>
                       <Select value={method} onValueChange={setMethod}>
                         <SelectTrigger className="mt-1.5">
                           <SelectValue placeholder="JazzCash / Easypaisa / Bank" />
@@ -229,7 +229,7 @@ export default function PaymentScreen() {
                         className="mt-1.5"
                       />
                       <p className="text-xs text-muted-foreground mt-1">
-                        Payment ke baad jo transaction ID aata hai woh yahan enter karein
+                        Enter the transaction ID you received after payment
                       </p>
                     </div>
 
@@ -271,7 +271,7 @@ export default function PaymentScreen() {
                   Payment Slip Submitted! 🎉
                 </h2>
                 <p className="text-muted-foreground text-lg">
-                  Admin aapki payment verify karega. Yeh kuch time le sakta hai.
+                  Admin will verify your payment. This may take some time.
                 </p>
               </div>
               <Card className="max-w-sm mx-auto">
@@ -293,7 +293,7 @@ export default function PaymentScreen() {
                 </CardContent>
               </Card>
               <p className="text-sm text-muted-foreground">
-                Login karte raho! Admin approve karne ke baad aap dashboard dekh payenge.
+                Keep checking back! You\'ll see the dashboard after admin approves.
               </p>
               <Button onClick={() => setView('landing')} variant="outline">
                 <ArrowLeft className="w-4 h-4 mr-2" />
