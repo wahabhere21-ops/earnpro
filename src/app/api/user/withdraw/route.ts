@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
 
     if (!userId || !amount || !method || !account) {
       return NextResponse.json(
-        { error: 'Sab fields zaroori hain' },
+        { error: 'All fields are required' },
         { status: 400 }
       )
     }
@@ -21,12 +21,12 @@ export async function POST(request: NextRequest) {
     })
 
     if (!user) {
-      return NextResponse.json({ error: 'User nahi mila' }, { status: 404 })
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 
     if (user.referrals.length < 5) {
       return NextResponse.json(
-        { error: 'Minimum 5 referrals chahiye withdrawal ke liye' },
+        { error: 'Minimum 5 referrals required for withdrawal' },
         { status: 400 }
       )
     }
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     const validMethods = ['jazzcash', 'easypaisa', 'bank']
     if (!validMethods.includes(method)) {
       return NextResponse.json(
-        { error: 'Ghalat payment method' },
+        { error: 'Invalid payment method' },
         { status: 400 }
       )
     }
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
     })
 
     return NextResponse.json({
-      message: 'Withdrawal request successfully submit ho gayi!',
+      message: 'Withdrawal request submitted successfully!',
       newBalance: updatedUser.walletBalance,
       withdrawalId: withdrawal.id,
     })
