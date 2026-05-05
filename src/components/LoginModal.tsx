@@ -208,7 +208,7 @@ export default function LoginModal() {
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
                       id="name"
-                      placeholder="Aapka naam"
+                      placeholder="Your name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       className="pl-10"
