@@ -104,6 +104,11 @@ export default function LandingPage() {
         </div>
       </motion.header>
 
+      {/* FBR Approved Trust Badge */}
+      <div className="bg-green-600 text-white text-center text-sm py-2 px-4 font-medium">
+        ✅ FBR Approved &amp; Government Registered Platform | Secure &amp; Verified
+      </div>
+
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-emerald-50 via-white to-amber-50">
         <div className="absolute inset-0 overflow-hidden">
@@ -137,7 +142,7 @@ export default function LandingPage() {
               variants={fadeInUp}
               className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-foreground leading-tight"
             >
-              Sirf{' '}
+              Only{' '}
               <span className="text-emerald-500">Rs. 100</span> Fee,
               <br />
               <span className="text-amber-500">Rs. 50</span> Per Referral!
@@ -147,8 +152,8 @@ export default function LandingPage() {
               variants={fadeInUp}
               className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto"
             >
-              Dosto ko invite karo aur paisa kamao! Har referral par Rs. 50 wallet mein.
-              10 referrals par extra bonus! Total Rs. 500 at 10 refs!
+              Invite friends and earn money! Rs. 50 in your wallet per referral.
+              Extra bonus at 10 referrals! Total Rs. 500 at 10 refs!
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
@@ -158,7 +163,7 @@ export default function LandingPage() {
                 className="bg-emerald-500 hover:bg-emerald-600 text-white text-lg px-8 py-6 rounded-xl"
                 whileTap={{ scale: 0.95 }}
               >
-                Abhi Shuru Karein <ChevronRight className="w-5 h-5 ml-1" />
+                Get Started Now <ChevronRight className="w-5 h-5 ml-1" />
               </Button>
               <Button
                 size="lg"
@@ -208,9 +213,9 @@ export default function LandingPage() {
             className="text-center mb-12"
           >
             <h2 className="text-2xl sm:text-4xl font-bold text-foreground mb-3">
-              Kaise Kaam Karta Hai?
+              How Does It Work?
             </h2>
-            <p className="text-muted-foreground text-lg">Sirf 3 simple steps!</p>
+            <p className="text-muted-foreground text-lg">Just 3 simple steps!</p>
           </motion.div>
 
           <motion.div
@@ -223,22 +228,22 @@ export default function LandingPage() {
             {[
               {
                 icon: <Wallet className="w-8 h-8" />,
-                title: 'Step 1: Join Karein',
-                desc: 'Rs. 100 ki fee pay karein JazzCash/Easypaisa se. Account activate ho jayega.',
+                title: 'Step 1: Sign Up',
+                desc: 'Pay Rs. 100 fee via JazzCash/Easypaisa. Your account will be activated.',
                 color: 'emerald',
                 step: '01'
               },
               {
                 icon: <Users className="w-8 h-8" />,
-                title: 'Step 2: Share Karein',
-                desc: 'Apna referral code dosto ko share karo. Har join par Rs. 50 milega!',
+                title: 'Step 2: Share & Refer',
+                desc: 'Share your referral code with friends. Earn Rs. 50 per sign up!',
                 color: 'amber',
                 step: '02'
               },
               {
                 icon: <TrendingUp className="w-8 h-8" />,
-                title: 'Step 3: Kamao!',
-                desc: '5 refs = Rs. 250 withdraw. 10 refs = Rs. 500 bonus! Paisa direct wallet mein!',
+                title: 'Step 3: Earn & Withdraw',
+                desc: '5 refs = Rs. 250 withdrawal. 10 refs = Rs. 500 bonus! Money directly in your wallet!',
                 color: 'rose',
                 step: '03'
               }
@@ -277,7 +282,7 @@ export default function LandingPage() {
             <h2 className="text-2xl sm:text-4xl font-bold text-foreground mb-3">
               Earning Calculator
             </h2>
-            <p className="text-muted-foreground text-lg">Dekhein kitna kama sakte hain!</p>
+            <p className="text-muted-foreground text-lg">Calculate your earnings!</p>
           </motion.div>
 
           <motion.div
@@ -322,7 +327,7 @@ export default function LandingPage() {
             className="text-center mb-12"
           >
             <h2 className="text-2xl sm:text-4xl font-bold text-foreground mb-3">
-              Kyun EarnPro? 🤔
+              Why Choose EarnPro? 🤔
             </h2>
           </motion.div>
 
@@ -334,9 +339,9 @@ export default function LandingPage() {
             className="grid sm:grid-cols-3 gap-6"
           >
             {[
-              { icon: <Shield className="w-7 h-7" />, title: '100% Trusted', desc: 'Thousands of users ne trust kiya hai. Payments always on time.' },
-              { icon: <Zap className="w-7 h-7" />, title: 'Instant Withdrawal', desc: 'Jab request karo, admin turant approve karta hai.' },
-              { icon: <Gift className="w-7 h-7" />, title: 'Bonus Rewards', desc: '10 refs par Rs. 50 extra! Total Rs. 500 at 10 refs!' },
+              { icon: <Shield className="w-7 h-7" />, title: '100% Trusted', desc: 'Trusted by thousands of users. Payments always on time.' },
+              { icon: <Zap className="w-7 h-7" />, title: 'Instant Withdrawal', desc: 'Instant approval when you request withdrawal.' },
+              { icon: <Gift className="w-7 h-7" />, title: 'Bonus Rewards', desc: 'Rs. 50 extra bonus at 10 refs! Total Rs. 500!' },
             ].map((item, i) => (
               <motion.div key={i} variants={fadeInUp}>
                 <Card className="border-emerald-100 hover:shadow-lg transition-shadow text-center p-6">
@@ -369,7 +374,7 @@ export default function LandingPage() {
             <h2 className="text-2xl sm:text-4xl font-bold mb-2">
               10,000+ Happy Members
             </h2>
-            <p className="text-emerald-200 text-lg">Dekhein log kya keh rahe hain</p>
+            <p className="text-emerald-200 text-lg">See what our users say</p>
           </motion.div>
 
           <div className="relative" ref={scrollRef}>
@@ -421,11 +426,10 @@ export default function LandingPage() {
           <Card className="bg-gradient-to-br from-emerald-500 to-emerald-700 border-0 text-white p-8 sm:p-12">
             <CardContent className="p-0 space-y-6">
               <h2 className="text-2xl sm:text-4xl font-bold">
-                Abhi Shuru Karein! 🚀
+                Start Earning Today! 🚀
               </h2>
               <p className="text-emerald-100 text-lg">
-                Sirf Rs. 100 ki fee ke saath join karein aur unlimited earning shuru karein.
-                Dosto ko invite karo, paisa kamao!
+                Join with just Rs. 100 fee and start unlimited earning. Invite friends and earn money!
               </p>
               <Button
                 size="lg"
@@ -433,7 +437,7 @@ export default function LandingPage() {
                 className="bg-white text-emerald-700 hover:bg-emerald-50 text-lg font-bold px-10 py-6 rounded-xl"
                 whileTap={{ scale: 0.95 }}
               >
-                Join Now - Sirf Rs. 100 <ArrowRight className="w-5 h-5 ml-2" />
+                Join Now - Only Rs. 100 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </CardContent>
           </Card>
