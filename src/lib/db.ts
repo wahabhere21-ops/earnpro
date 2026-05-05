@@ -1,3 +1,4 @@
+// EarnPro v2.1 - Professional English Platform
 import crypto from 'crypto'
 
 const BLOB_ID = process.env.JSONBLOB_ID || '019df79e-c560-7761-9342-ade85e4e9d29'
