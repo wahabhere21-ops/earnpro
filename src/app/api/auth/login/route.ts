@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
     if (!user.isActive) {
       return NextResponse.json(
-        { error: 'Admin hasn't verified your payment yet', user: { id: user.id, isActive: false } },
+        { error: "Admin has not verified your payment yet", user: { id: user.id, isActive: false } },
         { status: 403 }
       )
     }
