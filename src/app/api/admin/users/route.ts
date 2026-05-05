@@ -21,7 +21,7 @@ export async function GET(request: Request) {
         skip: (page - 1) * limit,
         take: limit,
         orderBy: { createdAt: 'desc' },
-        select: { id: true, name: true, email: true, balance: true, role: true, referredBy: true, createdAt: true },
+        select: { id: true, name: true, email: true, walletBalance: true, role: true, referredById: true, createdAt: true },
       }),
       prisma.user.count({ where }),
     ]);
