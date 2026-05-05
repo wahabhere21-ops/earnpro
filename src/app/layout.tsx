@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "EarnPro - Referral Earning Platform | Rs. 100 Fee, Rs. 50 Per Referral",
-  description: "Sirf Rs. 100 ki fee ke saath join karein aur har referral par Rs. 50 kamao! Dosto ko invite karo aur unlimited paise kamao. Pakistan's #1 referral platform.",
-  keywords: ["EarnPro", "referral earning", "online earning Pakistan", "paise kamao", "referral bonus"],
+  description: "Join with just Rs. 100 fee and earn Rs. 50 per referral! Invite friends and earn unlimited. Pakistan's #1 referral earning platform.",
+  keywords: ["EarnPro", "referral earning", "online earning Pakistan", "earn money online", "referral bonus"],
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
