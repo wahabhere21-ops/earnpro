@@ -170,7 +170,7 @@ function applyFieldUpdate(record: any, data: any): any {
 
 function createModel(collectionName: string) {
   return {
-    findUnique: async ({ where, include, select }: any) => {
+    findUnique: async (args: any = {}) => { const { where, include, select } = args;
       const data = await readData()
       let records = data[collectionName] || []
       const whereKeys = where ? Object.keys(where).filter(k => k !== 'OR') : []
@@ -181,7 +181,7 @@ function createModel(collectionName: string) {
       return result
     },
 
-    findMany: async ({ where, orderBy, skip, take, include, select }: any) => {
+    findMany: async (args: any = {}) => { const { where, orderBy, skip, take, include, select } = args;
       const data = await readData()
       let records = data[collectionName] || []
       records = applyWhere(records, where)
@@ -198,7 +198,7 @@ function createModel(collectionName: string) {
       return records
     },
 
-    findFirst: async ({ where, include, select }: any) => {
+    findFirst: async (args: any = {}) => { const { where, include, select } = args;
       const data = await readData()
       let records = data[collectionName] || []
       records = applyWhere(records, where)
@@ -209,7 +209,7 @@ function createModel(collectionName: string) {
       return result
     },
 
-    create: async ({ data: createData }: any) => {
+    create: async (args: any = {}) => { const { data: createData } = args;
       const data = await readData()
       if (!data[collectionName]) data[collectionName] = []
       const newRecord = {
@@ -223,10 +223,11 @@ function createModel(collectionName: string) {
       return newRecord
     },
 
-    createMany: async ({ data: items }: any) => {
+    createMany: async (args: any = {}) => {
+      const { data: items } = args;
       const data = await readData()
       if (!data[collectionName]) data[collectionName] = []
-      for (const item of items) {
+      for (const item of items {
         data[collectionName].push({
           id: uuid(),
           ...item,
@@ -238,7 +239,7 @@ function createModel(collectionName: string) {
       return { count: items.length }
     },
 
-    update: async ({ where, data: updateData }: any) => {
+    update: async (args: any = {}) => { const { where, data: updateData } = args;
       const data = await readData()
       const records = data[collectionName] || []
       const idx = records.findIndex(r => {
@@ -251,7 +252,7 @@ function createModel(collectionName: string) {
       return records[idx]
     },
 
-    upsert: async ({ where, update, create }: any) => {
+    upsert: async (args: any = {}) => { const { where, update, create } = args;
       const data = await readData()
       const records = data[collectionName] || []
       const idx = records.findIndex(r => {
@@ -275,7 +276,7 @@ function createModel(collectionName: string) {
       }
     },
 
-    delete: async ({ where }: any) => {
+    delete: async (args: any = {}) => { const { where } = args;
       const data = await readData()
       const records = data[collectionName] || []
       const idx = records.findIndex(r => {
@@ -288,7 +289,7 @@ function createModel(collectionName: string) {
       return deleted
     },
 
-    deleteMany: async ({ where }: any) => {
+    deleteMany: async (args: any = {}) => { const { where } = args;
       const data = await readData()
       let records = data[collectionName] || []
       const before = records.length
@@ -302,14 +303,14 @@ function createModel(collectionName: string) {
       return { count: before - records.length }
     },
 
-    count: async ({ where }: any) => {
+    count: async (args: any = {}) => { const { where } = args;
       const data = await readData()
       let records = data[collectionName] || []
       if (where) records = applyWhere(records, where)
       return records.length
     },
 
-    aggregate: async ({ where, _sum, _count }: any) => {
+    aggregate: async (args: any = {}) => { const { where, _sum, _count } = args;
       const data = await readData()
       let records = data[collectionName] || []
       if (where) records = applyWhere(records, where)
