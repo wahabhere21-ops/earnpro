@@ -7,7 +7,7 @@ export async function PUT(request: NextRequest) {
     const { adminId, slipId, action, adminNote } = body
 
     if (!adminId || !slipId || !action) {
-      return NextResponse.json({ error: 'Sab fields zaroori hain' }, { status: 400 })
+      return NextResponse.json({ error: 'All fields are required' }, { status: 400 })
     }
 
     const admin = await db.user.findUnique({ where: { id: adminId } })
@@ -21,11 +21,11 @@ export async function PUT(request: NextRequest) {
     })
 
     if (!slip) {
-      return NextResponse.json({ error: 'Slip nahi mili' }, { status: 404 })
+      return NextResponse.json({ error: 'Slip not found' }, { status: 404 })
     }
 
     if (slip.status !== 'pending') {
-      return NextResponse.json({ error: 'Yeh slip pehle se process ho chuki hai' }, { status: 400 })
+      return NextResponse.json({ error: 'This slip has already been processed' }, { status: 400 })
     }
 
     if (action === 'approve') {
